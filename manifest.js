@@ -1,6 +1,6 @@
 {
-    "short_name": "Koul design",
-    "name": "Koul design",
+    "short_name": "Koulimage",
+    "name": "Koulimage",
     "icons": [
         {
             "src": "icon.png",
