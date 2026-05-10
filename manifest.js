@@ -1,6 +1,6 @@
 {
-    "short_name": "App",
-    "name": "App",
+    "short_name": "Koul Design",
+    "name": "Koul Design",
     "icons": [
         {
             "src": "icon.png",
@@ -11,6 +11,6 @@
     ],
     "start_url": "./index.html",
     "display": "standalone",
-    "theme_color": "#4a90e2",
-    "background_color": "#4a90e2"
+    "theme_color": "#000000",
+    "background_color": "#000000"
 }
