@@ -3,110 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koul - Ultra Presentation Editor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Koul - Éditeur de Luxe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --accent: #ffcc00;
-            --shadow: 8px 8px 16px #0a0a0a, -4px -4px 12px #2a2a2a;
-            --inner-shadow: inset 3px 3px 6px #0a0a0a, inset -2px -2px 5px #2a2a2a;
+            --bg-color: #181818;
+            --panel-color: #222222;
+            --accent-gold: #d4af37;
+            --inner-shadow: inset 6px 6px 12px #121212, inset -2px -2px 8px #323232;
+            --outer-shadow: 10px 10px 20px #0d0d0d, -5px -5px 15px #2d2d2d;
         }
 
         body { 
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg);
-            color: #fff;
+            background-color: var(--bg-color);
+            color: #e0e0e0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow-x: hidden;
+            padding: 15px;
         }
 
-        .app-container {
-            width: 90%;
-            max-width: 420px;
-            background: var(--card);
-            padding: 25px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid #252525;
+        .app-shell {
+            width: 100%;
+            max-width: 400px;
+            background: var(--panel-color);
+            padding: 30px 20px;
+            border-radius: 40px;
+            box-shadow: var(--outer-shadow);
+            border: 1px solid #2a2a2a;
             text-align: center;
         }
 
         h1 { 
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin-bottom: 25px;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
-        .upload-section {
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Style skeuomorphique pour l'input file */
+        input[type="file"] {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 12px;
+            border: none;
+            box-shadow: var(--inner-shadow);
+            color: #777;
+            font-size: 0.8rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .actions {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .custom-file-input {
-            background: var(--bg);
-            padding: 12px;
-            border-radius: 15px;
-            box-shadow: var(--inner-shadow);
-            font-size: 0.8rem;
-            border: none;
-            color: #888;
-            cursor: pointer;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
 
         button {
-            padding: 16px;
-            border-radius: 18px;
+            padding: 18px;
+            border-radius: 20px;
             border: none;
             font-weight: 700;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.2s ease;
             text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
         }
 
-        .btn-compile {
-            background: var(--accent);
+        .btn-main {
+            background: linear-gradient(145deg, #d4af37, #b8962e);
             color: #000;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 5px 5px 10px #0f0f0f, -2px -2px 5px #3a3a3a;
         }
 
-        .btn-compile:active {
-            transform: scale(0.95);
-            box-shadow: none;
+        .btn-main:active {
+            box-shadow: inset 3px 3px 6px #8a6d1d;
+            transform: translateY(2px);
         }
 
-        .btn-download {
-            background: #ffffff;
+        .btn-dl {
+            background: #f0f0f0;
             color: #000;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 5px 5px 10px #0f0f0f;
         }
 
-        canvas {
+        #resultCanvas {
             width: 100%;
-            margin-top: 25px;
-            border-radius: 20px;
-            border: 4px solid #252525;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            margin-top: 30px;
+            border-radius: 15px;
+            border: 6px solid #1a1a1a;
+            box-shadow: var(--inner-shadow);
+            display: none;
         }
 
-        .hidden { display: none; }
     </style>
 
     <link rel="manifest" href="manifest.json">
@@ -116,136 +119,145 @@
 </head>
 <body>
 
-    <div class="app-container">
-        <h1>Koul Design</h1>
+    <div class="app-shell">
+        <h1>RestoKoul Pro</h1>
         
-        <div class="upload-section">
-            <input type="file" id="img1" class="custom-file-input" accept="image/*">
-            <input type="file" id="img2" class="custom-file-input" accept="image/*">
-            <input type="file" id="img3" class="custom-file-input" accept="image/*">
+        <div class="input-group">
+            <input type="file" id="img1" accept="image/*">
+            <input type="file" id="img2" accept="image/*">
+            <input type="file" id="img3" accept="image/*">
         </div>
 
-        <div class="btn-group">
-            <button class="btn-compile" onclick="generateUltraBanner()">🚀 Générer le Montage</button>
-            <button id="downloadBtn" class="btn-download hidden" onclick="downloadBanner()">⬇️ Télécharger PNG</button>
+        <div class="actions">
+            <button class="btn-main" onclick="processBanner()">🚀 Compiler la photo</button>
+            <button id="dlBtn" class="btn-dl" style="display:none;" onclick="download()">⬇️ Télécharger PNG</button>
         </div>
 
-        <canvas id="resultCanvas" width="1200" height="400" class="hidden"></canvas>
+        <canvas id="resultCanvas" width="1200" height="360"></canvas>
     </div>
 
     <script>
-        async function generateUltraBanner() {
+        async function processBanner() {
             const canvas = document.getElementById('resultCanvas');
             const ctx = canvas.getContext('2d');
-            const ids = ['img1', 'img2', 'img3'];
-            const images = [];
+            const files = [
+                document.getElementById('img1').files[0],
+                document.getElementById('img2').files[0],
+                document.getElementById('img3').files[0]
+            ];
 
-            for (let id of ids) {
-                const file = document.getElementById(id).files[0];
-                if (!file) return alert("Sélectionnez les 3 photos !");
-                images.push(await loadImage(URL.createObjectURL(file)));
-            }
+            if (files.some(f => !f)) return alert("Sélectionnez les 3 photos !");
 
-            draw(ctx, canvas, images);
-            canvas.classList.remove('hidden');
-            document.getElementById('downloadBtn').classList.remove('hidden');
+            const imgs = await Promise.all(files.map(file => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.src = URL.createObjectURL(file);
+                });
+            }));
+
+            render(ctx, canvas, imgs);
+            canvas.style.display = 'block';
+            document.getElementById('dlBtn').style.display = 'block';
         }
 
-        function loadImage(url) {
-            return new Promise(resolve => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.src = url;
-            });
-        }
-
-        function draw(ctx, canvas, images) {
-            const w = canvas.width;
-            const h = canvas.height;
-            const skew = 100; // Inclinaison
-            const gapWidth = 10; // Largeur de la séparation physique
-
-            ctx.clearRect(0, 0, w, h);
-
-            // Points pivots
+        function render(ctx, canvas, imgs) {
+            const { width: w, height: h } = canvas;
+            const skew = 90; 
             const p1 = w / 3;
             const p2 = (w * 2) / 3;
 
-            // Fonction pour tracer une zone oblique
-            const drawZone = (points) => {
-                ctx.beginPath();
-                ctx.moveTo(points[0].x, points[0].y);
-                points.forEach(p => ctx.lineTo(p.x, p.y));
-                ctx.closePath();
-            };
+            ctx.clearRect(0, 0, w, h);
 
-            // Zones
             const zones = [
-                [{x:0, y:0}, {x:p1 + skew, y:0}, {x:p1 - skew, y:h}, {x:0, y:h}],
-                [{x:p1 + skew, y:0}, {x:p2 + skew, y:0}, {x:p2 - skew, y:h}, {x:p1 - skew, y:h}],
-                [{x:p2 + skew, y:0}, {x:w, y:0}, {x:w, y:h}, {x:p2 - skew, y:h}]
+                () => {
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(p1 + skew + 2, 0); // +2 pour éviter les fissures
+                    ctx.lineTo(p1 - skew + 2, h);
+                    ctx.lineTo(0, h);
+                },
+                () => {
+                    ctx.moveTo(p1 + skew, 0);
+                    ctx.lineTo(p2 + skew + 2, 0);
+                    ctx.lineTo(p2 - skew + 2, h);
+                    ctx.lineTo(p1 - skew, h);
+                },
+                () => {
+                    ctx.moveTo(p2 + skew, 0);
+                    ctx.lineTo(w, 0);
+                    ctx.lineTo(w, h);
+                    ctx.lineTo(p2 - skew, h);
+                }
             ];
 
-            zones.forEach((zone, i) => {
+            zones.forEach((drawPath, i) => {
                 ctx.save();
-                drawZone(zone);
+                ctx.beginPath();
+                drawPath();
+                ctx.closePath();
                 ctx.clip();
                 
-                // Calcul du centre de la zone pour drawImage
-                const minX = Math.min(...zone.map(p => p.x));
-                const maxX = Math.max(...zone.map(p => p.x));
-                drawImageCover(images[i], ctx, minX, 0, maxX - minX, h);
+                // Calcul de la zone de dessin
+                const xStart = (i === 0) ? 0 : (i === 1 ? p1 - skew : p2 - skew);
+                const xEnd = (i === 0) ? p1 + skew : (i === 1 ? p2 + skew : w);
                 
-                // Ombre interne sur les bords pour l'effet de profondeur
-                ctx.shadowBlur = 40;
-                ctx.shadowColor = 'black';
-                ctx.strokeStyle = 'rgba(0,0,0,0.8)';
-                ctx.lineWidth = 10;
+                drawCover(ctx, imgs[i], xStart, 0, xEnd - xStart, h);
+                
+                // Ombre interne pour relief
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = "rgba(0,0,0,0.7)";
+                ctx.strokeStyle = "rgba(0,0,0,0.5)";
+                ctx.lineWidth = 4;
                 ctx.stroke();
                 ctx.restore();
             });
 
-            // --- TRACAGE DES SÉPARATEURS (STYLE RAINURE 3D) ---
-            const drawSeparator = (topX, bottomX) => {
-                // Ligne sombre (profondeur)
+            // SÉPARATEURS PHYSIQUES (RAINURES)
+            const drawGroove = (tx, bx) => {
                 ctx.beginPath();
-                ctx.moveTo(topX, 0); ctx.lineTo(bottomX, h);
-                ctx.strokeStyle = "rgba(0,0,0,0.6)";
-                ctx.lineWidth = gapWidth;
+                ctx.moveTo(tx, 0); ctx.lineTo(bx, h);
+                ctx.strokeStyle = "rgba(0,0,0,0.8)";
+                ctx.lineWidth = 8;
                 ctx.stroke();
-
-                // Ligne claire (reflet/lumière)
+                
                 ctx.beginPath();
-                ctx.moveTo(topX + 2, 0); ctx.lineTo(bottomX + 2, h);
-                ctx.strokeStyle = "rgba(255,255,255,0.15)";
+                ctx.moveTo(tx + 2, 0); ctx.lineTo(bx + 2, h);
+                ctx.strokeStyle = "rgba(255,255,255,0.1)";
                 ctx.lineWidth = 2;
                 ctx.stroke();
             };
 
-            drawSeparator(p1 + skew, p1 - skew);
-            drawSeparator(p2 + skew, p2 - skew);
+            drawGroove(p1 + skew, p1 - skew);
+            drawGroove(p2 + skew, p2 - skew);
+
+            // REFLET VITRÉ GLOBAL
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, "rgba(255,255,255,0.1)");
+            grad.addColorStop(0.5, "rgba(255,255,255,0)");
+            grad.addColorStop(1, "rgba(255,255,255,0.05)");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,w,h);
         }
 
-        function drawImageCover(img, ctx, x, y, w, h) {
-            const imgAspect = img.width / img.height;
-            const areaAspect = w / h;
+        function drawCover(ctx, img, x, y, w, h) {
+            const imgRatio = img.width / img.height;
+            const areaRatio = w / h;
             let sW, sH, sx, sy;
 
-            if (imgAspect > areaAspect) {
-                sW = img.height * areaAspect; sH = img.height;
+            if (imgRatio > areaRatio) {
+                sW = img.height * areaRatio; sH = img.height;
                 sx = (img.width - sW) / 2; sy = 0;
             } else {
-                sW = img.width; sH = img.width / areaAspect;
+                sW = img.width; sH = img.width / areaRatio;
                 sx = 0; sy = (img.height - sH) / 2;
             }
             ctx.drawImage(img, sx, sy, sW, sH, x, y, w, h);
         }
 
-        function downloadBanner() {
-            const canvas = document.getElementById('resultCanvas');
+        function download() {
             const link = document.createElement('a');
-            link.download = 'koul-premium-banner.png';
-            link.href = canvas.toDataURL('image/png', 1.0);
+            link.download = 'koul-prez-ultra.png';
+            link.href = document.getElementById('resultCanvas').toDataURL('image/png', 1.0);
             link.click();
         }
     </script>
